@@ -18,7 +18,8 @@ import System.Console.GetOpt (ArgOrder(..),OptDescr(..),ArgDescr(..)
 import System.Environment    (getArgs)
 import System.FilePath       (takeBaseName)
 
-import FCH.Data    (Language,mkComment,mkString,mkLen,reqSetup,mdSetup,mdCleanup)
+import FCH.Data    (Language,mkComment,mkString,mkLen
+                   ,reqSetup,mdSetup,mdCleanup,checkFile)
 import FCH.C       (c)
 import FCH.Haskell (haskell)
 import FCH.Scheme  (scheme)
@@ -113,7 +114,9 @@ fch l f mm
     | reqSetup l && isNothing mm = putStrLn reqSetupString
     | otherwise
         = readFile f
-          >>= \src -> let f' = takeBaseName f
+          >>= \src -> let f' = (if checkFile l
+                                  then safeIdentifier
+                                  else id) $ takeBaseName f
                           ss = mkString l f' src
                           ls = mkLen    l f' src
                           ms = case mm of
@@ -130,6 +133,12 @@ fch l f mm
                    , "To submit a bug report or add a language module, go to:"
                    , "<https://github.com/llllllllll/fch>"
                    ]
+      safeIdentifier = map swapChar
+      swapChar c
+          | c `elem` badChars = '_'
+          | otherwise         = c
+        where
+            badChars = "+-!@#$%^&*(){}[]`~<>,.?"
 
 -- | Grabs the args, parses them and operates on it.
 main :: IO ()

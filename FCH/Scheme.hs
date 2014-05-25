@@ -24,4 +24,5 @@ scheme = Language { mkComment = \cs    -> "; " ++ cs
                   , mdCleanup = \fl _  -> "(export " ++ fl ++ "-string "
                                 ++ fl ++ "-len)"
                   , reqSetup  = False
+                  , checkFile = False
                   }
