@@ -18,13 +18,13 @@ import FCH.Data
 -- | The c programming language (and maybe c++, who cares).
 java :: Language
 java = Language { mkComment = \cs    ->  "// " ++ cs
-                , mkString  = \fl cs -> "final String " ++ ufl
+                , mkString  = \fl cs -> "final String " ++ ufl fl
                               ++ "_STR = " ++ mkStrLit cs ++ ";"
-                , mkLen     = \fl cs -> "FINAL int " ++ ufl ++ "_LEN = "
+                , mkLen     = \fl cs -> "final int " ++ ufl fl ++ "_LEN = "
                               ++ show (length cs) ++ ";"
                 , mdSetup   = \_ md  -> "public class " ++ md ++ "{"
                 , mdCleanup = \_ _   -> "}"
                 , checkFile = True
              }
   where
-      ufl = map toUpper fl
+      ufl = map toUpper

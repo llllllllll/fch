@@ -9,12 +9,10 @@
 --
 -- The main module for fch.
 
-{-# LANGUAGE LambdaCase #-}
-
 import Control.Applicative   ((<$>))
 import Control.Monad         (when,mapM_,unless,join,liftM)
 import Data.Char             (toLower)
-import Data.List             (intercalate,find)
+import Data.List             (intercalate)
 import Data.Maybe            (isNothing)
 import System.Console.GetOpt ( ArgOrder(..),OptDescr(..),ArgDescr(..)
                              , getOpt,usageInfo)
@@ -75,6 +73,10 @@ versionString = "fch: Files Compiled to Headers: version 0.0.0.1 (2014.05.25)\n\
                 \conditions.  There is NO\nwarranty; not even for \
                 \MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
 
+-- | The string to print when no options are given.
+noArgString :: String
+noArgString = "fch: no input files\nFor usage help, try fch -h"
+
 -- | Converts the string representation of the language argument to a Langage
 -- type. The string is toLower'ed first so case does not matter.
 stringToLang :: String -> Maybe Language
@@ -82,11 +84,13 @@ stringToLang l
     | l `elem` cOpts       = Just c
     | l `elem` haskellOpts = Just haskell
     | l `elem` schemeOpts  = Just scheme
+    | l `elem` javaOpts    = Just java
     | otherwise            = Nothing
   where
       cOpts       = ["c","c++","cpp"]
       haskellOpts = ["haskell","hask","hs"]
       schemeOpts  = ["scheme","scm","ss"]
+      javaOpts    = ["java"]  -- More may be added later.
 
 -- | Gets the language argument out of the list of flags.
 getLang :: [Flag] -> Maybe Language
@@ -100,7 +104,7 @@ getModuleName = foldr (\a b -> case a of
                                    ModuleSetup m -> Just m
                                    _             -> b) Nothing
 
--- | Gets the output stream.
+-- | Gets the output stream,
 getOutFl :: [Flag] -> Maybe FilePath -> IO Handle
 getOutFl fs mf
     | StdoutOpt `elem` fs = return stdout
