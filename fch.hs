@@ -116,9 +116,12 @@ getOutFl fs mf
                        (_,_)      -> openFile "fch.ch" WriteMode
 
 -- | Handles the help and version commands.
-helpAndVersion :: [Flag] -> IO ()
-helpAndVersion fs = when (Help `elem` fs) (putStrLn helpString)
-                    >> when (Version `elem` fs) (putStrLn versionString)
+helpAndVersion :: [Flag] -> IO Bool
+helpAndVersion fs = let h = Help `elem` fs
+                        v = Version `elem` fs
+                    in when h (putStrLn helpString)
+                    >> when v (putStrLn versionString)
+                    >> return (h || v)
 
 -- | Invokes fch with the flags and output destination.
 invokeFch :: [Flag] -> Maybe FilePath -> Handle -> IO ()
@@ -130,8 +133,8 @@ invokeFch fs a = case getLang fs of
 handleOpts :: ([Flag],[String],[String]) -> IO ()
 handleOpts ([],[],_)  = putStrLn noArgString
 handleOpts (fs,[],_)  = helpAndVersion fs
-                        >> getOutFl fs Nothing
-                        >>= invokeFch fs Nothing
+                        >>= \hv -> unless hv (getOutFl fs Nothing
+                                              >>= invokeFch fs Nothing)
 handleOpts (fs,a:_,_) = helpAndVersion fs
                         >> getOutFl fs (Just a)
                         >>= invokeFch fs (Just a)
