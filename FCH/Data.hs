@@ -17,14 +17,12 @@ module FCH.Data where
 -- mkLen: Takes the file name and the string and makes the length variable.
 -- mdSetup: Takes the file name and the module name and does the module setup.
 -- mdCleanup: Takes the file name and the module name and cleans up the module.
--- reqSetup: Does this language require a module to work or not?
 -- checkFile: Should this language check the file name for the identifiers.
 data Language = Language { mkComment :: String -> String
                          , mkString  :: FilePath -> String -> String
                          , mkLen     :: FilePath -> String -> String
                          , mdSetup   :: FilePath -> String -> String
                          , mdCleanup :: FilePath -> String -> String
-                         , reqSetup  :: Bool
                          , checkFile :: Bool
                          }
 

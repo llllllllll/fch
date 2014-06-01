@@ -27,6 +27,5 @@ haskell = Language { mkComment  = \cs    -> "-- " ++ cs
                    , mdSetup    = \fl m  -> "module " ++ m ++ " (" ++ fl
                                   ++ "Len, " ++ fl ++ "Str) where"
                    , mdCleanup  = \_ _   -> ""
-                   , reqSetup   = False
                    , checkFile  = True
                    }

@@ -22,6 +22,5 @@ c = Language { mkComment = \cs    ->  "// " ++ cs
                            ++ show (length cs) ++ ";"
              , mdSetup   = \_ md  -> "#ifndef " ++ md ++ "\n#define " ++ md
              , mdCleanup = \_ _   -> "#endif"
-             , reqSetup  = False
              , checkFile = True
              }

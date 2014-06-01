@@ -23,6 +23,5 @@ scheme = Language { mkComment = \cs    -> "; " ++ cs
                   , mdSetup   = \_ m   -> "(define-module (" ++ m ++ "))"
                   , mdCleanup = \fl _  -> "(export " ++ fl ++ "-string "
                                 ++ fl ++ "-len)"
-                  , reqSetup  = False
                   , checkFile = False
                   }
