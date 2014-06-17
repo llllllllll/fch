@@ -17,7 +17,7 @@ import FCH.Data
 
 -- | The c programming language (and maybe c++, who cares).
 java :: Language
-java = Language { mkComment = \cs    ->  "// " ++ cs
+java = Language { mkComment = (++) "// "
                 , mkString  = \fl cs -> "final String " ++ ufl fl
                               ++ "_STR = " ++ mkStrLit cs ++ ";"
                 , mkLen     = \fl cs -> "final int " ++ ufl fl ++ "_LEN = "

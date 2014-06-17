@@ -27,6 +27,7 @@ import FCH.C       (c)
 import FCH.Haskell (haskell)
 import FCH.Java    (java)
 import FCH.Scheme  (scheme)
+import FCH.Python  (python)
 
 
 -- | The command line flags.
@@ -85,12 +86,14 @@ stringToLang l
     | l `elem` haskellOpts = Just haskell
     | l `elem` schemeOpts  = Just scheme
     | l `elem` javaOpts    = Just java
+    | l `elem` pythonOpts  = Just python
     | otherwise            = Nothing
   where
       cOpts       = ["c","c++","cpp"]
       haskellOpts = ["haskell","hask","hs"]
       schemeOpts  = ["scheme","scm","ss"]
       javaOpts    = ["java"]  -- More may be added later.
+      pythonOpts  = ["python", "py"]
 
 -- | Gets the language argument out of the list of flags.
 getLang :: [Flag] -> Maybe Language

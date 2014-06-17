@@ -15,7 +15,7 @@ import FCH.Data
 
 -- | The scheme programming languages, might work for other lisps.
 scheme :: Language
-scheme = Language { mkComment = \cs    -> "; " ++ cs
+scheme = Language { mkComment = (++) "; "
                   , mkString  = \fl cs -> "(define " ++ fl ++ "-string "
                                 ++ mkStrLit cs ++ ")"
                   , mkLen     = \fl cs -> "(define " ++ fl ++ "-length "

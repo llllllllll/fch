@@ -15,7 +15,7 @@ import FCH.Data
 
 -- | Module specs for the Haskell language.
 haskell :: Language
-haskell = Language { mkComment  = \cs    -> "-- " ++ cs
+haskell = Language { mkComment  = (++) "-- "
                    ,  mkString  = \fl cs -> let strName = fl ++ "Str"
                                             in strName ++ " :: String\n"
                                                    ++ strName ++ " = "

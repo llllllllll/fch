@@ -15,7 +15,7 @@ import FCH.Data
 
 -- | The c programming language (and maybe c++, who cares).
 c :: Language
-c = Language { mkComment = \cs    ->  "// " ++ cs
+c = Language { mkComment = (++) "// "
              , mkString  = \fl cs -> "const char* const " ++ fl
                            ++ "_str = " ++ mkStrLit cs ++ ";"
              , mkLen     = \fl cs -> "const size_t " ++ fl ++ "_len = "
